@@ -3,18 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Rukun</title>
-    <!-- Mengimpor font modern dari Google Fonts -->
+    <title>Rukun</title>
+    
+    <link rel="icon" type="image/png" href="https://ik.imagekit.io/logojkdiy/RUKUN.png?updatedAt=1782969744181">
+    <link rel="apple-touch-icon" href="https://ik.imagekit.io/logojkdiy/RUKUN.png?updatedAt=1782969744181">
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
-        /* Reset Dasar */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #f8f9fa; /* Warna latar abu-abu sangat muda (enterprise) */
+            background-color: #ffffff;
             font-family: 'Inter', sans-serif;
         }
 
@@ -31,73 +39,65 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            /* Transisi fade out yang sangat halus */
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
         }
 
-        /* Kontainer logo untuk animasi masuk */
         .brand-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Animasi melayang naik dengan halus */
             animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
             transform: translateY(20px);
         }
 
         .logo {
-            width: 170px; /* Ukuran proporsional, tidak terlalu besar */
+            width: 160px;
             height: auto;
             margin-bottom: 40px;
-            /* Memberikan bayangan super halus agar logo tidak terlihat flat */
-            filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.04)); 
+            filter: drop-shadow(0px 8px 24px rgba(0, 0, 0, 0.05)); 
         }
 
-        /* --- Sleek Progress Bar (Indikator Loading) --- */
+        /* Progress Bar Premium */
         .progress-container {
-            width: 220px;
+            width: 200px;
             height: 3px;
-            background-color: #e9ecef;
+            background-color: #e2e8f0;
             border-radius: 3px;
             overflow: hidden;
             position: relative;
         }
 
         .progress-bar {
-            width: 30%;
+            width: 40%;
             height: 100%;
-            background-color: #0f172a; /* Warna gelap elegan (bisa diganti kode warna corporate Anda) */
+            background-color: #0f172a; 
             border-radius: 3px;
             position: absolute;
-            left: -30%;
-            animation: loading 1.8s infinite ease-in-out;
+            left: -40%;
+            animation: loading 1.6s infinite ease-in-out;
         }
 
         .loading-text {
             margin-top: 16px;
-            font-size: 12px;
+            font-size: 11px;
             color: #64748b;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             font-weight: 500;
         }
 
-        /* Keyframes untuk animasi */
         @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes loading {
-            0% { left: -30%; width: 30%; }
-            50% { left: 30%; width: 70%; }
-            100% { left: 100%; width: 30%; }
+            0% { left: -40%; width: 40%; }
+            50% { left: 20%; width: 60%; }
+            100% { left: 100%; width: 40%; }
         }
 
-        /* --- Iframe (Frameless) --- */
+        /* --- Frameless Iframe --- */
         #app-frame {
             width: 100%;
             height: 100%;
@@ -111,21 +111,16 @@
 </head>
 <body>
 
-    <!-- Area Splash Screen -->
     <div id="splash-screen">
         <div class="brand-container">
             <img src="https://ik.imagekit.io/logojkdiy/RUKUN.png?updatedAt=1782969744181" alt="Logo Rukun" class="logo">
-            
-            <!-- Progress Bar Loading -->
             <div class="progress-container">
                 <div class="progress-bar"></div>
             </div>
-            
-            <div class="loading-text">Memuat Sistem...</div>
+            <div class="loading-text">Memuat Sistem</div>
         </div>
     </div>
 
-    <!-- Area Aplikasi (Iframe) -->
     <iframe 
         id="app-frame" 
         src="https://script.google.com/macros/s/AKfycbw8tT9PRf4j6ik9pZXWgFKwAW8THXEbIr8chdnRaZT5BpHs2hGINIwXUEqXDho3PFSm/exec" 
@@ -133,6 +128,7 @@
     </iframe>
 
     <script>
+        // Logika Sinkronisasi Splash Screen dengan Iframe
         document.addEventListener("DOMContentLoaded", () => {
             const splashScreen = document.getElementById('splash-screen');
             const appFrame = document.getElementById('app-frame');
@@ -144,19 +140,26 @@
                 }, 800); 
             };
 
-            // Menunggu iframe selesai dimuat
             appFrame.onload = () => {
-                // Memberikan waktu ekstra 1.5 detik agar animasi fadeUp selesai terlihat sempurna
-                setTimeout(hideSplash, 1500); 
+                setTimeout(hideSplash, 1200); 
             };
 
-            // Fallback timeout
+            // Safety fallback
             setTimeout(() => {
                 if (splashScreen.style.visibility !== 'hidden') {
                     hideSplash();
                 }
             }, 8000);
         });
+
+        // Registrasi Service Worker untuk PWA Enterprise
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker terdaftar sukses.', reg.scope))
+                    .catch(err => console.log('Service Worker gagal terdaftar:', err));
+            });
+        }
     </script>
 
 </body>
