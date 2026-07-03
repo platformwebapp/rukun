@@ -2,7 +2,7 @@
   "name": "Rukun Enterprise",
   "short_name": "Rukun",
   "description": "Platform Aplikasi Rukun",
-  "start_url": "./index.html",
+  "start_url": "./id.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0f172a",
