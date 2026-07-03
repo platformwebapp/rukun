@@ -1,7 +1,7 @@
 const CACHE_NAME = 'rukun-enterprise-v1';
 const ASSETS_TO_CACHE = [
   './',
-  './index.html',
+  './id.html',
   './manifest.json',
   'https://ik.imagekit.io/logojkdiy/RUKUN.png?updatedAt=1782969744181',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap'
